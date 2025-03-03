@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RARE RADIO</title>
+    <style>
+        /* Webamp container styling */
+        #webamp-container {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99999999 !important;
+            pointer-events: auto !important;
+            display: none;
+        }
+        
+        /* Ensure Webamp stays on top */
+        #webamp-container, #webamp-container *,
+        .webamp-main-window, .webamp-main-window * {
+            z-index: 99999999 !important;
+            pointer-events: auto !important;
+        }
+        
+        /* Fix for iframes inside Webamp */
+        #webamp-container iframe {
+            position: relative !important;
+            z-index: 99999999 !important;
+            pointer-events: auto !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    </style>
+    <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
+</head>
+<body>
+    <div class="rgbtxt">
+        <h1 id="rare-radio-link" style="cursor: pointer; display: inline-block; position: relative;">
+            RARE RADIO
+        </h1>
+    </div>
+    
+    <div id="webamp-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const webampContainer = document.getElementById("webamp-container");
+            
+            document.getElementById("rare-radio-link").addEventListener("click", function(event) {
+                event.preventDefault();
+                webampContainer.style.display = "block";
+                document.body.appendChild(webampContainer);
+                
+                if (!window.webamp) {
+                    window.webamp = new Webamp({
+                        initialTracks: [{
+                            metaData: {
+                                artist: "Brandy & Monica",
+                                title: "The Boy is Mine",
+                            },
+                            url: "https://sadhost.neocities.org/music/Boy.mp3",
+                        }],
+                        initialSkin: {
+                            url: "https://sadhost.neocities.org/etc/TetAtck.wsz"
+                        },
+                        zIndex: 99999999
+                    });
+                    
+                    window.webamp.renderWhenReady(webampContainer).then(() => {
+                        setTimeout(function() {
+                            const webampElements = webampContainer.querySelectorAll('*');
+                            webampElements.forEach(function(el) {
+                                el.style.zIndex = "99999999";
+                                el.style.pointerEvents = "auto";
+                            });
+                        }, 500);
+                    });
+                } else {
+                    window.webamp.reopen();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
