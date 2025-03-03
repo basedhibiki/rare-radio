@@ -5,77 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RARE RADIO</title>
     <style>
-        /* Webamp container styling */
+        #container {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        
+        #rare-radio-text {
+            font-family: Arial, sans-serif;
+            font-size: 4em;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.3s;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: linear-gradient(to bottom, #7286a7 0%, #7286a7 13%, #ffffff 50%, #812f30 56%, #ffffff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        #container:hover #rare-radio-text {
+            opacity: 1;
+        }
+        
         #webamp-container {
             position: fixed;
             top: 100px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 99999999 !important;
-            pointer-events: auto !important;
+            z-index: 99999999;
             display: none;
-        }
-        
-        /* Ensure Webamp stays on top */
-        #webamp-container, #webamp-container *,
-        .webamp-main-window, .webamp-main-window * {
-            z-index: 99999999 !important;
-            pointer-events: auto !important;
-        }
-        
-        /* Fix for iframes inside Webamp */
-        #webamp-container iframe {
-            position: relative !important;
-            z-index: 99999999 !important;
-            pointer-events: auto !important;
-            width: 100% !important;
-            height: 100% !important;
         }
     </style>
     <script src="https://unpkg.com/webamp@1.5.0/built/webamp.bundle.min.js"></script>
 </head>
 <body>
-    <div class="rgbtxt">
-        <h1 id="rare-radio-link" style="cursor: pointer; display: inline-block; position: relative;">
-            RARE RADIO
-        </h1>
+    <div id="container">
+        <img src="https://files.catbox.moe/9c4tzr.gif" alt="RARE RADIO" width="300">
+        <h1 id="rare-radio-text">RARE RADIO</h1>
     </div>
     
     <div id="webamp-container"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById("container");
             const webampContainer = document.getElementById("webamp-container");
             
-            document.getElementById("rare-radio-link").addEventListener("click", function(event) {
+            container.addEventListener("click", function(event) {
                 event.preventDefault();
                 webampContainer.style.display = "block";
-                document.body.appendChild(webampContainer);
                 
                 if (!window.webamp) {
                     window.webamp = new Webamp({
                         initialTracks: [{
                             metaData: {
-                                artist: "Brandy & Monica",
-                                title: "The Boy is Mine",
+                                artist: "RAREGOD",
+                                title: "RARE RADIO VOL.1",
                             },
-                            url: "https://sadhost.neocities.org/music/Boy.mp3",
+                            url: "https://files.catbox.moe/klkotk.mp3",
                         }],
                         initialSkin: {
                             url: "https://sadhost.neocities.org/etc/TetAtck.wsz"
                         },
-                        zIndex: 99999999
                     });
                     
-                    window.webamp.renderWhenReady(webampContainer).then(() => {
-                        setTimeout(function() {
-                            const webampElements = webampContainer.querySelectorAll('*');
-                            webampElements.forEach(function(el) {
-                                el.style.zIndex = "99999999";
-                                el.style.pointerEvents = "auto";
-                            });
-                        }, 500);
-                    });
+                    window.webamp.renderWhenReady(webampContainer);
                 } else {
                     window.webamp.reopen();
                 }
